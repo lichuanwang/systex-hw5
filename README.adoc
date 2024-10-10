@@ -1,0 +1,183 @@
+= Systex-hw4
+
+== Lottery and Guess Game Web Application
+
+=== Project Overview
+
+This is a web application that features two games:
+
+1. *Lottery Game*: Players can generate random lottery numbers while excluding certain numbers.
+2. *Guess Game*: Players can guess a number between 1 and 10, and they are given a limited number of tries to guess
+   the correct number.
+
+The web application is built using *Java* and *JSP*, following the *Model-View-Controller (MVC)* pattern. It runs
+on *Apache Tomcat* and is managed using *Maven*.
+
+---
+
+=== Prerequisites
+
+Before running the application, ensure the following software is installed:
+
+- *Java Development Kit (JDK)* (version 11 or above)
+- *Apache Maven* (version 3.x or above)
+- *Apache Tomcat* (version 10.x or above)
+
+=== How to Run the Application
+
+==== 1. Build the Project
+
+[source,bash]
+----
+mvn clean package
+----
+
+==== 2. Deploy the WAR File to Tomcat
+
+[source,bash]
+----
+cp target/hw4-0.0.1-SNAPSHOT.war /path/to/tomcat/webapps/
+----
+
+==== 3. Start Tomcat
+
+On Linux/macOS:
+
+[source,bash]
+----
+/path/to/tomcat/bin/startup.sh
+----
+
+On Windows:
+
+[source,bash]
+----
+C:\path\to\tomcat\bin\startup.bat
+----
+
+==== 4. Access the Application
+[source,bash]
+----
+http://localhost:8080/
+----
+
+=== How to Play the Game
+
+==== Login Info:
+[source,bash]
+----
+username: admin
+password: adminpass
+----
+
+==== 1. Lottery Game
+
+In the lottery game, you can generate random lottery numbers. You can specify how many groups of numbers you want to
+generate and exclude certain numbers from the results.
+
+1. Input Values:
+    1. *Number of Groups (組數)*: Input the number of groups of lottery numbers you want to generate (e.g., 1, 2, 3).
+    2. *Exclude Numbers (排除)*: Enter the numbers you want to exclude from the lottery results (e.g., 5, 12, 23).
+       Separate multiple numbers with spaces or commas.
+2. Click Submit to generate your lottery numbers. The application will display the results, excluding the numbers you
+   specified.
+
+Example Input:
+
+    Number of Groups: 3
+    Exclude Numbers: 12, 23, 45
+
+Example Output:
+
+    Lottery Set 1: [5, 8, 19, 24, 32, 48]
+    Lottery Set 2: [7, 14, 26, 31, 37, 42]
+    Lottery Set 3: [3, 9, 18, 27, 33, 40]
+
+==== 2. Guess Game
+
+===== Overview:
+
+In the guess game, you need to guess a number between 1 and 10. You have a limited number of tries (3 attempts by
+default) to guess the correct number.
+
+1. Input Values:
+    1. *Your Guess*: Input a number between 1 and 10.
+    2. Click Submit to submit your guess. The application will respond by telling you whether your guess is correct or
+       incorrect. It will also show how many attempts you have remaining.
+    3. If you guess correctly, you’ll be redirected to a “You Win” page. If you run out of attempts, you’ll see a “Game
+       Over” page.
+
+Example Input:
+
+    Your Guess: 7
+
+Example Output:
+
+    Incorrect Guess: “Number of Attempts Remaining: 2”
+    Correct Guess: “Congratulations! You’ve guessed the correct number.”
+
+== Introduction to Postman and cURL
+
+=== What is Postman?
+
+Postman is a popular API development tool that simplifies the process of creating, testing, and documenting APIs. It provides a user-friendly interface to send HTTP requests, inspect responses, and automate API testing workflows.
+
+==== Key Features of Postman:
+- *Request Building*: Postman allows you to easily build and send HTTP requests like GET, POST, PUT, DELETE, etc., to interact with APIs.
+- *Collections*: You can organize your API requests into collections and folders, making it easy to group related requests.
+- *Environment Variables*: Postman supports environment variables, enabling dynamic substitution of values in your requests based on the environment (e.g., production, testing, development).
+- *Automated Testing*: Postman includes built-in support for writing tests using JavaScript, allowing you to automate API testing.
+- *Collaboration*: You can share your collections with your team and collaborate on API development and testing.
+
+==== Getting Started with Postman:
+1. *Install Postman*: Download and install Postman from https://www.postman.com/downloads/[https://www.postman.com/downloads/].
+2. *Create a Request*: Open Postman and create a new request. Select the HTTP method (e.g., GET, POST) and provide the API endpoint URL.
+3. *Send a Request*: Add headers, parameters, and body as needed. Click "Send" to make the request and view the response.
+4. *Test the Response*: Use Postman's testing feature to write test scripts that validate the API's response.
+
+---
+
+=== What is cURL?
+
+cURL is a command-line tool that enables you to transfer data over various protocols such as HTTP, HTTPS, FTP, and more. It is often used to interact with APIs and is pre-installed on many operating systems.
+
+==== Key Features of cURL:
+- *Command-line Interface*: cURL operates directly from the command line, making it lightweight and easy to script.
+- *Protocol Support*: cURL supports a variety of protocols, including HTTP, HTTPS, FTP, and SFTP.
+- *Request Types*: You can perform various types of requests, such as GET, POST, PUT, DELETE, etc.
+- *File Uploads/Downloads*: With cURL, you can upload and download files from a remote server.
+- *Headers and Authentication*: cURL allows you to pass custom headers, authenticate requests, and handle cookies.
+
+==== Getting Started with cURL:
+
+1. *Check Installation*: Most operating systems come with cURL pre-installed. To check, run the following command in your terminal:
+
+[source,bash]
+----
+curl --version
+----
+
+2. *Make a Request*: To make a basic GET request, use the following command:
+
+[source,bash]
+----
+curl https://api.example.com/data
+----
+
+3. *POST Request with Data*: To send a POST request with JSON data, use:
+
+[source,bash]
+----
+curl -X POST https://api.example.com/data -H "Content-Type: application/json" -d '{"key": "value"}'
+----
+
+4. *Include Headers*: You can include custom headers in your request like this:
+
+[source,bash]
+----
+curl -H "Authorization: Bearer <token>" https://api.example.com/data
+----
+
+=== Conclusion:
+
+Both Postman and cURL are powerful tools for interacting with APIs, each with its strengths. Postman is ideal for those who prefer a graphical interface and built-in testing, while cURL is perfect for command-line enthusiasts and automation scripts. Depending on your needs, you can use either tool effectively for API development and testing.
