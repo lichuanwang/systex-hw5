@@ -1,7 +1,6 @@
 package com.systex.hw5.filter;
 
 import com.systex.hw5.service.UserService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,13 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import static com.systex.hw5.util.JsonUtil.parseJsonRequest;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Component
 public class AuthFilter extends OncePerRequestFilter {
@@ -74,7 +73,7 @@ public class AuthFilter extends OncePerRequestFilter {
         filterChain.doFilter(httpRequest, httpResponse);
     }
 
-    private void handleLogin(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
+    private void handleLogin(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException, ServletException {
         // Check if the request is an AJAX request
         boolean isAjax = "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
 
@@ -93,7 +92,7 @@ public class AuthFilter extends OncePerRequestFilter {
         }
 
         if (username == null || password == null) {
-            respondWithError(response, HttpServletResponse.SC_BAD_REQUEST, "Username or password is missing", isAjax);
+            respondWithError(request, response, HttpServletResponse.SC_BAD_REQUEST, "Username or password is missing", isAjax);
             return;
         }
 
@@ -101,7 +100,7 @@ public class AuthFilter extends OncePerRequestFilter {
         if (userService.authenticateUser(username, password)) {
             handleSuccessfulLogin(request, response, session, username, isAjax);
         } else {
-            respondWithError(response, HttpServletResponse.SC_UNAUTHORIZED, "Invalid username or password", isAjax);
+            respondWithError(request, response, HttpServletResponse.SC_UNAUTHORIZED, "Invalid username or password", isAjax);
         }
     }
 
@@ -122,23 +121,17 @@ public class AuthFilter extends OncePerRequestFilter {
         }
     }
 
-    private void handleUnauthorizedRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void handleUnauthorizedRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         boolean isAjax = "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
         if (isAjax) {
-            respondWithError(response, HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized access. Please log in.", true);
+            respondWithError(request, response, HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized access. Please log in.", true);
         } else {
             // Redirect to login page for non-AJAX requests
             response.sendRedirect(request.getContextPath() + "/auth/login");
         }
     }
 
-    private Map<String, Object> parseJsonRequest(HttpServletRequest request) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        String jsonBody = request.getReader().lines().collect(Collectors.joining());
-        return objectMapper.readValue(jsonBody, Map.class);
-    }
-
-    private void respondWithError(HttpServletResponse response, int statusCode, String message, boolean isAjax) throws IOException {
+    private void respondWithError(HttpServletRequest request, HttpServletResponse response, int statusCode, String message, boolean isAjax) throws IOException, ServletException {
         if (isAjax) {
             response.setContentType("application/json");
             response.setStatus(statusCode);
@@ -146,7 +139,8 @@ public class AuthFilter extends OncePerRequestFilter {
             out.print("{\"success\": false, \"message\": \"" + message + "\"}");
             out.flush();
         } else {
-            response.sendError(statusCode, message);
+            request.getSession().setAttribute("loginError", message);
+            response.sendRedirect(request.getContextPath() + "/auth/login");
         }
     }
 

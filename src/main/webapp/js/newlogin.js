@@ -3,21 +3,32 @@
     window.addEventListener("load", init);
 
     function init() {
-        // Attach the login handler
         console.log("hello, this is newlogin.js");
         const loginForm = document.getElementById('login-form');
         const loginMethodSelect = document.getElementById('login-method');
 
-        // Dynamically handle the form submission based on the chosen method
+        // Restore saved login method from localStorage
+        const savedMethod = localStorage.getItem('loginMethod');
+        if (savedMethod) {
+            loginMethodSelect.value = savedMethod;
+            if (savedMethod === 'traditional') {
+                // Set action and method if "traditional" was saved
+                loginForm.setAttribute('action', contextPath + '/auth/login');
+                loginForm.setAttribute('method', 'POST');
+            }
+        }
+
+        // Update form action and method dynamically when login method changes
         loginMethodSelect.addEventListener('change', function () {
             const selectedMethod = loginMethodSelect.value;
+            localStorage.setItem('loginMethod', selectedMethod);
 
             if (selectedMethod === 'traditional') {
-                // Dynamically add action and method attributes for traditional submission
+                // Set action and method for traditional form submission
                 loginForm.setAttribute('action', contextPath + '/auth/login');
                 loginForm.setAttribute('method', 'POST');
             } else {
-                // Remove action and method attributes for AJAX submission
+                // Remove action and method for AJAX submission
                 loginForm.removeAttribute('action');
                 loginForm.removeAttribute('method');
             }
@@ -27,19 +38,17 @@
     }
 
     function login(event) {
-        // Prevent the form from submitting traditionally when AJAX is selected
         const selectedMethod = document.getElementById('login-method').value;
 
         if (selectedMethod === 'ajax') {
-            event.preventDefault();
-            console.log("Using AJAX");
+            event.preventDefault(); // Prevent traditional form submission for AJAX
 
             let formData = {
                 username: document.getElementById('username').value,
                 password: document.getElementById('password').value
             };
 
-            fetch(contextPath + '/auth/login', {  // Use the dynamically assigned contextPath
+            fetch(contextPath + '/auth/login', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -49,32 +58,23 @@
             })
                 .then(statusCheck)
                 .then(() => {
-                    console.log("Login successful, redirecting...");
-
-                    // Delay redirection by 2 seconds
-                    setTimeout(() => {
-                        window.location.href = contextPath + '/home';
-                    }, 2000); // 2 seconds delay before redirection
+                    window.location.href = contextPath + '/home';
                 })
                 .catch(handleError);
-        } else {
-            // Allow traditional form submission
-            console.log("Using traditional form submission");
         }
     }
 
     async function statusCheck(res) {
         if (!res.ok) {
-            let errorText = await res.text();
-            let error = new Error(errorText);
-            error.status = res.status; // Explicitly set the status code
-            throw error;
+            throw await res.json();
         }
         return res;
     }
 
     function handleError(error) {
         console.error(error);
-        document.getElementById('error-message').innerText = error.message;
+        // Display only the error message from the JSON response
+        document.getElementById('error-message').innerText = error.message || "An error occurred. Please try again.";
+        document.getElementById('password').value = "";
     }
 })();

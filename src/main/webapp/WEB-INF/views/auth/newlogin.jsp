@@ -22,7 +22,14 @@
     <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
       <div class="card p-4 shadow-sm" style="width: 100%; max-width: 400px;">
         <h2 class="text-center">Login</h2>
-        <p id="error-message" class="text-danger text-center"></p>
+
+        <!-- Display error message from the session -->
+        <p id="error-message" class="text-danger text-center">
+          <%= (request.getSession().getAttribute("loginError") != null) ? request.getSession().getAttribute("loginError") : "" %>
+        </p>
+
+        <!-- Remove the error message from session after displaying -->
+        <% request.getSession().removeAttribute("loginError");%>
 
         <!-- Toggle Login Method -->
         <div class="form-group text-center">
@@ -38,11 +45,11 @@
           <!-- Remove the action and method here for AJAX flexibility -->
           <div class="form-group">
             <label for="username">Username:</label>
-            <input type="text" id="username" name="username" class="form-control" required>
+            <input type="text" id="username" name="username" class="form-control" value="${param.username}" required>
           </div>
           <div class="form-group">
             <label for="password">Password:</label>
-            <input type="password" id="password" name="password" class="form-control" required>
+            <input type="password" id="password" name="password" class="form-control" value="${param.password}" required>
           </div>
           <button type="submit" class="btn btn-primary btn-block">Login</button>
         </form>
