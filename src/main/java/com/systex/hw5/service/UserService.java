@@ -1,7 +1,7 @@
-package com.systex.hw4.service;
+package com.systex.hw5.service;
 
-import com.systex.hw4.model.User;
-import com.systex.hw4.model.UserRepository;
+import com.systex.hw5.model.User;
+import com.systex.hw5.model.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

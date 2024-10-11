@@ -1,6 +1,6 @@
-package com.systex.hw4.controller;
+package com.systex.hw5.controller;
 
-import com.systex.hw4.model.GuessGame;
+import com.systex.hw5.model.GuessGame;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

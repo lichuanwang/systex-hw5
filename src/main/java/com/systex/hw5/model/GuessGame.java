@@ -1,4 +1,4 @@
-package com.systex.hw4.model;
+package com.systex.hw5.model;
 
 
 public class GuessGame {

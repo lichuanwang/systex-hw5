@@ -1,7 +1,7 @@
-package com.systex.hw4.controller;
+package com.systex.hw5.controller;
 
-import com.systex.hw4.model.User;
-import com.systex.hw4.service.UserService;
+import com.systex.hw5.model.User;
+import com.systex.hw5.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,25 +24,26 @@ public class AuthController {
 
     @GetMapping("/login")
     public String showLoginPage(Model model) {
-        return "auth/login";
+        return "auth/newlogin";  // This renders the login page
     }
 
     @PostMapping("/login")
     public String loginUser() {
-        // This handler could simply handle forwarding if needed.
-        return "auth/login";  // Return login page if the request is forwarded from the filter
+        // Since login is handled in the filter, this POST handler is not required.
+        // However, if the filter forwards requests back here, it will just re-display the login page
+        return "auth/newlogin";
     }
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();  // Invalidate the session to log out the user
-        return "redirect:/auth/login";  // Redirect to login page after logout
+        return "redirect:/auth/login";  // Redirect to the login page after logout
     }
 
     // Show the registration page
     @GetMapping("/register")
     public String showRegisterPage(Model model) {
-        return "auth/register";  // Render the register.jsp page
+        return "auth/register";  // Render the registration page
     }
 
     // Handle the registration form submission
@@ -52,7 +53,7 @@ public class AuthController {
                                @RequestParam String password,
                                @RequestParam String confirmPassword,
                                Model model) {
-        //Check if passwords match
+        // Validate passwords
         if (!password.equals(confirmPassword)) {
             model.addAttribute("error", "Passwords do not match.");
             return "auth/register";  // Reload the registration page with error
@@ -68,7 +69,7 @@ public class AuthController {
         User newUser = new User();
         newUser.setUsername(username);
         newUser.setEmail(email);
-        newUser.setPassword(password);  // Ideally, hash the password before saving (done in the service)
+        newUser.setPassword(password);  // Password encoding is handled in the service
 
         userService.registerUser(newUser);
 

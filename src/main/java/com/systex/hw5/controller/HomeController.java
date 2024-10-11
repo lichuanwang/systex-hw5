@@ -1,6 +1,5 @@
-package com.systex.hw4.controller;
+package com.systex.hw5.controller;
 
-import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 

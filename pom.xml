@@ -12,11 +12,11 @@
 	</parent>
 
 	<groupId>com.systex</groupId>
-	<artifactId>hw4</artifactId>
+	<artifactId>hw5</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>hw4</name>
-	<description>Homework 4</description>
+	<name>hw5</name>
+	<description>Homework 5</description>
 
 	<properties>
 		<java.version>21</java.version>
@@ -61,7 +61,7 @@
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<version>2.1.214</version>
+			<version>2.2.220</version>
 			<scope>runtime</scope>
 		</dependency>
 

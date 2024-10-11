@@ -1,9 +1,7 @@
-package com.systex.hw4.model;
+package com.systex.hw5.model;
 
 
 import jakarta.persistence.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 
 @Entity
 @Table(name = "users")  // Use "users" instead of "user"

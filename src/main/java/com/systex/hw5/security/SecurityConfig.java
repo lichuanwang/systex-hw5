@@ -1,4 +1,4 @@
-package com.systex.hw4.security;
+package com.systex.hw5.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

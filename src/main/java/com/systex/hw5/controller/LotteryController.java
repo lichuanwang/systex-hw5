@@ -1,4 +1,4 @@
-package com.systex.hw4.controller;
+package com.systex.hw5.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import static com.systex.hw4.service.LotteryService.getNumbers;
+import static com.systex.hw5.service.LotteryService.getNumbers;
 
 @Controller
 @RequestMapping("/lottery")

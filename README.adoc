@@ -36,7 +36,7 @@ mvn clean package
 
 [source,bash]
 ----
-cp target/hw4-0.0.1-SNAPSHOT.war /path/to/tomcat/webapps/
+cp target/hw5-0.0.1-SNAPSHOT.war /path/to/tomcat/webapps/
 ----
 
 ==== 3. Start Tomcat
