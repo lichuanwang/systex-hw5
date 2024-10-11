@@ -23,8 +23,11 @@
           </div>
           <div class="form-group">
             <label for="password">Password:</label>
-            <input type="password" id="password" name="password" minlength="8" maxlength="16" class="form-control" required>
-          </div>
+            <input type="password" id="password" name="password"
+                   minlength="8" maxlength="16" class="form-control"
+                   required
+                   pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}"
+                   title="Password must be 8-16 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character.">          </div>
           <div class="form-group">
             <label for="confirmPassword">Confirm Password:</label>
             <input type="password" id="confirmPassword" name="confirmPassword" minlength="8" maxlength="16" class="form-control" required>

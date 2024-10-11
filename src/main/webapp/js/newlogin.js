@@ -3,7 +3,6 @@
     window.addEventListener("load", init);
 
     function init() {
-        console.log("hello, this is newlogin.js");
         const loginForm = document.getElementById('login-form');
         const loginMethodSelect = document.getElementById('login-method');
 
