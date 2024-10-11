@@ -1,4 +1,4 @@
-= Systex-hw4
+= Systex-hw5
 
 == Lottery and Guess Game Web Application
 
@@ -7,11 +7,9 @@
 This is a web application that features two games:
 
 1. *Lottery Game*: Players can generate random lottery numbers while excluding certain numbers.
-2. *Guess Game*: Players can guess a number between 1 and 10, and they are given a limited number of tries to guess
-   the correct number.
+2. *Guess Game*: Players can guess a number between 1 and 10, and they are given a limited number of tries to guess the correct number.
 
-The web application is built using *Java* and *JSP*, following the *Model-View-Controller (MVC)* pattern. It runs
-on *Apache Tomcat* and is managed using *Maven*.
+The web application is built using *Java*, *Spring Boot*, and *JSP*, following the *Model-View-Controller (MVC)* pattern. It runs on *Apache Tomcat* and is managed using *Maven*. This application includes both AJAX-based and traditional form-based login handling, session management, and secure password encoding.
 
 ---
 
@@ -58,8 +56,20 @@ C:\path\to\tomcat\bin\startup.bat
 ==== 4. Access the Application
 [source,bash]
 ----
-http://localhost:8080/
+http://localhost:8080/hw5_war_exploded/
 ----
+
+=== Authentication System and Login Methods
+
+The application leverages *Spring Boot* to manage user authentication and session handling. It supports two login methods:
+
+1. **AJAX-based Login**: This method uses JavaScript and AJAX to process the login asynchronously. It provides real-time error feedback without reloading the page, such as displaying an invalid username or password error. After login failures, the username is preserved, but the password is cleared for security reasons.
+
+2. **Traditional Form Submission**: This method uses traditional form submission with a POST request, redirecting the user to the login page if credentials are incorrect.
+
+After login failures, the username is preserved, but the password is cleared for security reasons.
+
+---
 
 === How to Play the Game
 
@@ -72,15 +82,12 @@ password: adminpass
 
 ==== 1. Lottery Game
 
-In the lottery game, you can generate random lottery numbers. You can specify how many groups of numbers you want to
-generate and exclude certain numbers from the results.
+In the lottery game, you can generate random lottery numbers. You can specify how many groups of numbers you want to generate and exclude certain numbers from the results.
 
 1. Input Values:
-    1. *Number of Groups (組數)*: Input the number of groups of lottery numbers you want to generate (e.g., 1, 2, 3).
-    2. *Exclude Numbers (排除)*: Enter the numbers you want to exclude from the lottery results (e.g., 5, 12, 23).
-       Separate multiple numbers with spaces or commas.
-2. Click Submit to generate your lottery numbers. The application will display the results, excluding the numbers you
-   specified.
+1. *Number of Groups (組數)*: Input the number of groups of lottery numbers you want to generate (e.g., 1, 2, 3).
+2. *Exclude Numbers (排除)*: Enter the numbers you want to exclude from the lottery results (e.g., 5, 12, 23). Separate multiple numbers with spaces or commas.
+2. Click Submit to generate your lottery numbers. The application will display the results, excluding the numbers you specified.
 
 Example Input:
 
@@ -97,15 +104,12 @@ Example Output:
 
 ===== Overview:
 
-In the guess game, you need to guess a number between 1 and 10. You have a limited number of tries (3 attempts by
-default) to guess the correct number.
+In the guess game, you need to guess a number between 1 and 10. You have a limited number of tries (3 attempts by default) to guess the correct number.
 
 1. Input Values:
-    1. *Your Guess*: Input a number between 1 and 10.
-    2. Click Submit to submit your guess. The application will respond by telling you whether your guess is correct or
-       incorrect. It will also show how many attempts you have remaining.
-    3. If you guess correctly, you’ll be redirected to a “You Win” page. If you run out of attempts, you’ll see a “Game
-       Over” page.
+1. *Your Guess*: Input a number between 1 and 10.
+2. Click Submit to submit your guess. The application will respond by telling you whether your guess is correct or incorrect. It will also show how many attempts you have remaining.
+3. If you guess correctly, you’ll be redirected to a “You Win” page. If you run out of attempts, you’ll see a “Game Over” page.
 
 Example Input:
 
@@ -115,6 +119,8 @@ Example Output:
 
     Incorrect Guess: “Number of Attempts Remaining: 2”
     Correct Guess: “Congratulations! You’ve guessed the correct number.”
+
+---
 
 == Introduction to Postman and cURL
 
